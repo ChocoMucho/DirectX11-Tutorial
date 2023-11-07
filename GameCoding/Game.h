@@ -1,4 +1,7 @@
 #pragma once
+
+#include "Graphics.h"
+
 class Game
 {
 public:
@@ -10,14 +13,14 @@ public:
 	void Update();
 	void Render();
 
-private:
-	void RenderBegin();
-	void RenderEnd();
+//private:
+//	void RenderBegin();
+//	void RenderEnd();
 
-private:
-	void CreateDeviceAndSwapChain();
-	void CreateRenderTargetView();
-	void SetViewport();
+//private:
+//	void CreateDeviceAndSwapChain();
+//	void CreateRenderTargetView();
+//	void SetViewport();
 
 private:
 	void CreateGeometry();
@@ -42,21 +45,11 @@ private:
 
 private:
 	HWND _hWnd;
-	uint32 _width = 0;
-	uint32 _height = 0;
+	//uint32 _width = 0;
+	//uint32 _height = 0;
 
-private:
-	//device & swapchain
-	ComPtr<ID3D11Device> _device;
-	ComPtr<ID3D11DeviceContext> _deviceContext;
-	ComPtr<IDXGISwapChain> _swapChain;
 
-	//RTV
-	ComPtr<ID3D11RenderTargetView> _renderTargetView;
-
-	//Misc
-	D3D11_VIEWPORT _viewport = {0};
-	float _clearColor[4] = { 0.f, 0.f, 0.f, 0.f };
+	Graphics* _graphics;
 
 private:
 	//Geometry

@@ -21,6 +21,30 @@
     <Filter Include="소스 파일\98. Shader">
       <UniqueIdentifier>{054172c4-f6ff-49c1-8c6a-5988b4c3304c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="소스 파일\00. Engine">
+      <UniqueIdentifier>{78692054-dc0a-4857-bcc9-28c5ba3ce444}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Engine\Pipeline">
+      <UniqueIdentifier>{b3612470-c8b0-49cc-af6e-119fc16a725c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Engine\Pipeline\00. Geometry">
+      <UniqueIdentifier>{9fed69f1-84c9-4ee4-84e1-dabaa702e66d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Engine\Pipeline\01. InputAssembler">
+      <UniqueIdentifier>{d994dba3-1d9b-4099-8cc1-a492ace9a82b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Engine\Pipeline\02. VertexShader">
+      <UniqueIdentifier>{1b21b707-3c54-4078-ab27-c71d8a06d7e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Engine\Pipeline\03. Resterizer">
+      <UniqueIdentifier>{38156a38-a5eb-41bc-bfe9-4ce40f6d75ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Engine\Pipeline\04. Pixel Shader">
+      <UniqueIdentifier>{02fa8f18-5302-463c-afbd-42e7e35fbddb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="소스 파일\00. Engine\Pipeline\05. OutputMerger">
+      <UniqueIdentifier>{3dea216d-d664-4fee-b496-14f5348e0d4f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameCoding.h">
@@ -53,6 +77,9 @@
     <ClInclude Include="SimpleMath.h">
       <Filter>소스 파일\99. Headers</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>소스 파일\00. Engine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameCoding.rc">
@@ -79,6 +106,9 @@
     </ClCompile>
     <ClCompile Include="SimpleMath.cpp">
       <Filter>소스 파일\99. Headers</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.cpp">
+      <Filter>소스 파일\00. Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
