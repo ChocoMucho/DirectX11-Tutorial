@@ -175,7 +175,6 @@ void Game::CreateInputLayout()
 	_inputLayout->Create(layout, _vsBlob);
 
 	//const int32 count = sizeof(layout) / sizeof(D3D11_INPUT_ELEMENT_DESC);
-
 	//_graphics->GetDevice()->CreateInputLayout(layout, count, _vsBlob->GetBufferPointer(), _vsBlob->GetBufferSize(), _inputLayout.GetAddressOf());
 }
 
