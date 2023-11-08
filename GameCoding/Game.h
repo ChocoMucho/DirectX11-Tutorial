@@ -60,7 +60,7 @@ private:
 	vector<uint32> _indices;
 	IndexBuffer* _indexBuffer;
 	
-	ComPtr<ID3D11InputLayout> _inputLayout = nullptr;
+	InputLayout* _inputLayout;
 
 	//VS
 	ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
