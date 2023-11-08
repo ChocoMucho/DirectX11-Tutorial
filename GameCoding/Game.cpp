@@ -16,6 +16,7 @@ void Game::Init(HWND hwnd)
 	//_height = GWinSizeY;
 
 	_graphics = new Graphics(hwnd);
+	_vertexBuffer = new VertexBuffer(_graphics->GetDevice());
 
 	CreateGeometry();
 	CreateVS();
@@ -64,7 +65,7 @@ void Game::Render()
 
 		// IA
 		//버텍스 버퍼 세팅
-		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer.GetAddressOf(), &stride, &offset);
+		_deviceContext->IASetVertexBuffers(0, 1, _vertexBuffer->GetComPtr().GetAddressOf(), &stride, &offset);
 		_deviceContext->IASetIndexBuffer(_indexBuffer.Get(), DXGI_FORMAT_R32_UINT, 0);
 		_deviceContext->IASetInputLayout(_inputLayout.Get());
 		_deviceContext->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
@@ -123,7 +124,8 @@ void Game::CreateGeometry()
 
 	//VertexBuffer
 	{
-		D3D11_BUFFER_DESC desc;
+		_vertexBuffer->Create(_vertices);
+	/*	D3D11_BUFFER_DESC desc;
 		ZeroMemory(&desc, sizeof(desc));
 		desc.Usage = D3D11_USAGE_IMMUTABLE;
 		desc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
@@ -134,7 +136,7 @@ void Game::CreateGeometry()
 		data.pSysMem = _vertices.data();
 
 		HRESULT hr = _graphics->GetDevice()->CreateBuffer(&desc, &data, _vertexBuffer.GetAddressOf());
-		CHECK(hr);
+		CHECK(hr);*/
 	}
 
 	//Index

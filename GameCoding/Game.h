@@ -54,7 +54,8 @@ private:
 private:
 	//Geometry
 	vector<Vertex> _vertices;
-	ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
+	VertexBuffer* _vertexBuffer;
+	//ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
 	vector<uint32> _indices;
 	ComPtr<ID3D11Buffer> _indexBuffer = nullptr;
 	
