@@ -42,3 +42,4 @@ using namespace Microsoft::WRL;
 
 //Engine
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
