@@ -15,10 +15,10 @@ void Game::Init(HWND hwnd)
 	//_width = GWinSizeX;
 	//_height = GWinSizeY;
 
-	_graphics = new Graphics(hwnd);
-	_vertexBuffer = new VertexBuffer(_graphics->GetDevice());
-	_indexBuffer = new IndexBuffer(_graphics->GetDevice());
-	_inputLayout = new InputLayout(_graphics->GetDevice());
+	_graphics = make_shared<Graphics>(hwnd);
+	_vertexBuffer = make_shared<VertexBuffer>(_graphics->GetDevice());
+	_indexBuffer = make_shared<IndexBuffer>(_graphics->GetDevice());
+	_inputLayout = make_shared<InputLayout>(_graphics->GetDevice());
 
 	CreateGeometry();
 	CreateVS();

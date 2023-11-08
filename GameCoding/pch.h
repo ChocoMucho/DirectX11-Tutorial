@@ -9,6 +9,8 @@
 #include "Struct.h"
 
 //STL
+#include <memory>
+#include <iostream>
 #include <vector>
 #include <list>
 #include <map>

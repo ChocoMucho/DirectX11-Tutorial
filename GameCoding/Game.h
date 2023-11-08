@@ -49,18 +49,16 @@ private:
 	//uint32 _height = 0;
 
 
-	Graphics* _graphics;
+	shared_ptr<Graphics> _graphics;
 
 private:
 	//Geometry
 	vector<Vertex> _vertices;
-	VertexBuffer* _vertexBuffer;
-	//ComPtr<ID3D11Buffer> _vertexBuffer = nullptr;
+	shared_ptr<VertexBuffer> _vertexBuffer;
 
 	vector<uint32> _indices;
-	IndexBuffer* _indexBuffer;
-	
-	InputLayout* _inputLayout;
+	shared_ptr<IndexBuffer> _indexBuffer;
+	shared_ptr<InputLayout> _inputLayout;
 
 	//VS
 	ComPtr<ID3D11VertexShader> _vertexShader = nullptr;
