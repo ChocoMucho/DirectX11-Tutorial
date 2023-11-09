@@ -1,12 +1,12 @@
 #pragma once
 #include "Types.h"
 
-struct Vertex
-{
-	Vec3 positioin;
-	//Color color;
-	Vec2 uv;
-};
+//struct Vertex
+//{
+//	Vec3 positioin;
+//	//Color color;
+//	Vec2 uv;
+//};
 
 struct TransformData
 {

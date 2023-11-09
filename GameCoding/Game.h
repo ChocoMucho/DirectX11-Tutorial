@@ -53,10 +53,12 @@ private:
 
 private:
 	//Geometry
-	vector<Vertex> _vertices;
-	shared_ptr<VertexBuffer> _vertexBuffer;
+	//vector<Vertex> _vertices;
+	//vector<uint32> _indices;
 
-	vector<uint32> _indices;
+	shared_ptr<Geometry<VertexTextureData>> _geometry;
+
+	shared_ptr<VertexBuffer> _vertexBuffer;
 	shared_ptr<IndexBuffer> _indexBuffer;
 	shared_ptr<InputLayout> _inputLayout;
 
