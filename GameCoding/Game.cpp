@@ -20,11 +20,22 @@ void Game::Init(HWND hwnd)
 	_indexBuffer = make_shared<IndexBuffer>(_graphics->GetDevice());
 	_inputLayout = make_shared<InputLayout>(_graphics->GetDevice());
 	_geometry = make_shared<Geometry<VertexTextureData>>();
+	_vertexShader = make_shared<VertexShader>(_graphics->GetDevice());
+	_pixelShader = make_shared<PixelShader>(_graphics->GetDevice());
 
-	CreateGeometry();
-	CreateVS();
-	CreateInputLayout();
-	CreatePS();
+	//VertexData
+	GeometryHelper::CreateRectangle(_geometry);
+	//VertexBuffer
+	_vertexBuffer->Create(_geometry->GetVertices());
+	//IndexBuffer
+	_indexBuffer->Create(_geometry->GetIndices());
+
+	_vertexShader->Create(L"Default.hlsl", "VS", "vs_5_0");
+
+	_inputLayout->Create(VertexTextureData::descs, _vertexShader->GetBlob());
+
+	_pixelShader->Create(L"Default.hlsl", "PS", "ps_5_0");
+
 
 	CreateRasterizerState();
 	CreateSamplerState();
@@ -75,14 +86,14 @@ void Game::Render()
 		
 		// VS
 		//GPU가 어떤 정점 셰이더 가지고 일을 했으면 좋겠는지 정해준다.
-		_deviceContext->VSSetShader(_vertexShader.Get(), nullptr, 0);
+		_deviceContext->VSSetShader(_vertexShader->GetComPtr().Get(), nullptr, 0);
 		_deviceContext->VSSetConstantBuffers(0, 1, _constantBuffer.GetAddressOf());
 
 		// RS
 		_deviceContext->RSSetState(_rasterizerState.Get());
 
 		// PS
-		_deviceContext->PSSetShader(_pixelShader.Get(), nullptr, 0);
+		_deviceContext->PSSetShader(_pixelShader->GetComPtr().Get(), nullptr, 0);
 		_deviceContext->PSSetShaderResources(0, 1, _shaderResourceView.GetAddressOf());
 		_deviceContext->PSSetSamplers(0, 1, _samplerState.GetAddressOf());
 
@@ -96,56 +107,6 @@ void Game::Render()
 	_graphics->RenderEnd();
 }
 
-void Game::CreateGeometry()
-{
-	//VertexData
-	GeometryHelper::CreateRectangle(_geometry);
-
-	//VertexBuffer
-	{
-		_vertexBuffer->Create(_geometry->GetVertices());
-	}
-
-
-	//IndexBuffer
-	{
-		_indexBuffer->Create(_geometry->GetIndices());
-	}
-}
-
-void Game::CreateInputLayout()
-{
-	_inputLayout->Create(VertexTextureData::descs, _vsBlob);
-}
-
-void Game::CreateVS()
-{
-	//1.셰이더 로드해서 블롭을 만들어주고
-	LoadShaderFromFile(L"Default.hlsl", "VS", "vs_5_0", _vsBlob);
-	//Default.hlsl 컴파일 내용을 블롭형태로 들고있는.
-
-	//2.블롭을 이용해서 셰이더 리소스가 채워진다.
-	HRESULT hr = _graphics->GetDevice()->CreateVertexShader(
-		_vsBlob->GetBufferPointer(),
-		_vsBlob->GetBufferSize(),
-		nullptr,
-		_vertexShader.GetAddressOf()
-	);
-}
-
-void Game::CreatePS()
-{
-	LoadShaderFromFile(L"Default.hlsl", "PS", "ps_5_0", _psBlob);
-
-	HRESULT hr = _graphics->GetDevice()->CreatePixelShader(
-		_psBlob->GetBufferPointer(),
-		_psBlob->GetBufferSize(),
-		nullptr,
-		_pixelShader.GetAddressOf()
-	);
-
-	CHECK(hr);
-}
 
 
 void Game::CreateRasterizerState()
@@ -221,25 +182,5 @@ void Game::CreateConstantBuffer()
 	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
 
 	HRESULT hr = _graphics->GetDevice()->CreateBuffer(&desc, nullptr, _constantBuffer.GetAddressOf());
-	CHECK(hr);
-}
-
-void Game::LoadShaderFromFile(const wstring& path, const string& name, const string& version, ComPtr<ID3DBlob>& blob)
-{
-	const uint32 compileFlag = D3DCOMPILE_DEBUG | D3DCOMPILE_SKIP_OPTIMIZATION;
-
-	//=> 블롭 객체에 데이터가 넘어오게 되고 이를 가지고 버텍스 셰이더 오브젝트를 만든다.
-	HRESULT hr = ::D3DCompileFromFile(
-		path.c_str(),
-		nullptr,
-		D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		name.c_str(),
-		version.c_str(),
-		compileFlag,
-		0,
-		blob.GetAddressOf(), 
-		nullptr
-	);
-	
 	CHECK(hr);
 }
