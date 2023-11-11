@@ -53,3 +53,4 @@ using namespace Microsoft::WRL;
 
 #include "Shader.h"
 #include "ConstantBuffer.h"
+#include "Texture.h"

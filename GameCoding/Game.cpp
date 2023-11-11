@@ -21,6 +21,7 @@ void Game::Init(HWND hwnd)
 	_vertexShader = make_shared<VertexShader>(_graphics->GetDevice());
 	_pixelShader = make_shared<PixelShader>(_graphics->GetDevice());
 	_constantBuffer = make_shared<ConstantBuffer<TransformData>>(_graphics->GetDevice(), _graphics->GetDeviceContext());
+	_texture = make_shared<Texture>(_graphics->GetDevice());
 
 	//VertexData
 	GeometryHelper::CreateRectangle(_geometry);
@@ -40,7 +41,7 @@ void Game::Init(HWND hwnd)
 	CreateSamplerState();
 	CreateBlendState();
 
-	CreateSRV();
+	_texture->Create(L"character.png");
 	_constantBuffer->Create();
 }
 
@@ -87,7 +88,7 @@ void Game::Render()
 
 		// PS
 		_deviceContext->PSSetShader(_pixelShader->GetComPtr().Get(), nullptr, 0);
-		_deviceContext->PSSetShaderResources(0, 1, _shaderResourceView.GetAddressOf());
+		_deviceContext->PSSetShaderResources(0, 1, _texture->GetComPtr().GetAddressOf());
 		_deviceContext->PSSetSamplers(0, 1, _samplerState.GetAddressOf());
 
 		// OM
@@ -151,15 +152,4 @@ void Game::CreateBlendState()
 	desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
 	_graphics->GetDevice()->CreateBlendState(&desc, _blendState.GetAddressOf());
-}
-
-void Game::CreateSRV()
-{
-	DirectX::TexMetadata md;
-	DirectX::ScratchImage img;
-	HRESULT hr = ::LoadFromWICFile(L"character.png", WIC_FLAGS_NONE, &md, img);
-	CHECK(hr);
-
-	hr = ::CreateShaderResourceView(_graphics->GetDevice().Get(), img.GetImages(), img.GetImageCount(), md, _shaderResourceView.GetAddressOf());
-	CHECK(hr);
 }

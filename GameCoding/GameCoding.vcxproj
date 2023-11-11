@@ -156,6 +156,7 @@
     <ClInclude Include="SimpleMath.h" />
     <ClInclude Include="Struct.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Types.h" />
     <ClInclude Include="Values.h" />
     <ClInclude Include="VertexBuffer.h" />
@@ -176,6 +177,7 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SimpleMath.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexBuffer.cpp" />
     <ClCompile Include="VertexData.cpp" />
   </ItemGroup>
