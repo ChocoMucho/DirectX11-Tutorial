@@ -12,8 +12,6 @@ Game::~Game()
 void Game::Init(HWND hwnd)
 {
 	_hWnd = hwnd;
-	//_width = GWinSizeX;
-	//_height = GWinSizeY;
 
 	_graphics = make_shared<Graphics>(hwnd);
 	_vertexBuffer = make_shared<VertexBuffer>(_graphics->GetDevice());
@@ -22,6 +20,7 @@ void Game::Init(HWND hwnd)
 	_geometry = make_shared<Geometry<VertexTextureData>>();
 	_vertexShader = make_shared<VertexShader>(_graphics->GetDevice());
 	_pixelShader = make_shared<PixelShader>(_graphics->GetDevice());
+	_constantBuffer = make_shared<ConstantBuffer<TransformData>>(_graphics->GetDevice(), _graphics->GetDeviceContext());
 
 	//VertexData
 	GeometryHelper::CreateRectangle(_geometry);
@@ -42,7 +41,7 @@ void Game::Init(HWND hwnd)
 	CreateBlendState();
 
 	CreateSRV();
-	CreateConstantBuffer();
+	_constantBuffer->Create();
 }
 
 void Game::Update()
@@ -57,13 +56,7 @@ void Game::Update()
 	Matrix matWorld = matScale * matRotation * matTranlation;
 	_transformData.matWorld = matWorld;
 
-	D3D11_MAPPED_SUBRESOURCE subResource;
-	ZeroMemory(&subResource, sizeof(subResource));
-
-
-	_graphics->GetDeviceContext()->Map(_constantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &subResource);
-	::memcpy(subResource.pData, &_transformData, sizeof(_transformData));
-	_graphics->GetDeviceContext()->Unmap(_constantBuffer.Get(), 0);
+	_constantBuffer->CopyData(_transformData);
 }
 
 void Game::Render()
@@ -87,7 +80,7 @@ void Game::Render()
 		// VS
 		//GPU가 어떤 정점 셰이더 가지고 일을 했으면 좋겠는지 정해준다.
 		_deviceContext->VSSetShader(_vertexShader->GetComPtr().Get(), nullptr, 0);
-		_deviceContext->VSSetConstantBuffers(0, 1, _constantBuffer.GetAddressOf());
+		_deviceContext->VSSetConstantBuffers(0, 1, _constantBuffer->GetComPtr().GetAddressOf());
 
 		// RS
 		_deviceContext->RSSetState(_rasterizerState.Get());
@@ -106,7 +99,6 @@ void Game::Render()
 
 	_graphics->RenderEnd();
 }
-
 
 
 void Game::CreateRasterizerState()
@@ -169,18 +161,5 @@ void Game::CreateSRV()
 	CHECK(hr);
 
 	hr = ::CreateShaderResourceView(_graphics->GetDevice().Get(), img.GetImages(), img.GetImageCount(), md, _shaderResourceView.GetAddressOf());
-	CHECK(hr);
-}
-
-void Game::CreateConstantBuffer()
-{
-	D3D11_BUFFER_DESC desc;
-	ZeroMemory(&desc, sizeof(desc));
-	desc.Usage = D3D11_USAGE_DYNAMIC; // CPU 쓰기 GPU 읽기
-	desc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
-	desc.ByteWidth = sizeof(TransformData); //상수 버퍼는 16바이트 맞춰줘야해서 dummy float 넣어줬음.
-	desc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
-
-	HRESULT hr = _graphics->GetDevice()->CreateBuffer(&desc, nullptr, _constantBuffer.GetAddressOf());
 	CHECK(hr);
 }

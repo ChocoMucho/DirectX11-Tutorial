@@ -101,6 +101,9 @@
     <ClInclude Include="Shader.h">
       <Filter>소스 파일\00. Engine\Pipeline\02. VertexShader</Filter>
     </ClInclude>
+    <ClInclude Include="ConstantBuffer.h">
+      <Filter>소스 파일\00. Engine\Pipeline\02. VertexShader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="GameCoding.rc">
@@ -150,6 +153,9 @@
       <Filter>소스 파일\00. Engine\Pipeline\00. Geometry</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
+      <Filter>소스 파일\00. Engine\Pipeline\02. VertexShader</Filter>
+    </ClCompile>
+    <ClCompile Include="ConstantBuffer.cpp">
       <Filter>소스 파일\00. Engine\Pipeline\02. VertexShader</Filter>
     </ClCompile>
   </ItemGroup>

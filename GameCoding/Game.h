@@ -33,8 +33,6 @@ private:
 	void CreateBlendState();
 	void CreateSRV();
 
-	void CreateConstantBuffer();
-
 
 
 
@@ -75,7 +73,7 @@ private:
 private:
 	//SRT
 	TransformData _transformData;
-	ComPtr<ID3D11Buffer> _constantBuffer;
+	shared_ptr<ConstantBuffer<TransformData>> _constantBuffer;
 
 	//객체별 로컬 SRT 정보
 	Vec3 _localPosition = { 0.f, 0.f, 0.f };
